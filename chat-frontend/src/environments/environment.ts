@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  stompConnect: { protocol: 'http://', path: 'localhost', port: '8080' },
+  httpConnect : { protocol: 'http://', path: 'localhost', port: '8080' },
+  stompPrefixes: { endpoint: '/ws', simpleBroker: '/topic', appDestionation: '/app' }
 };

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-xs-6">
+        BADGES LIST WITH CURRENT USERS
+    </div>
+    <div class="col-xs-6">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of messages">{{item.username}} : {{item.messagePayload}}</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="input-group">
+            <input type="text" id="name" [(ngModel)]="message" class="form-control" placeholder="Your name here...">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+        </div>
+    </div>
+</div>
+
+
+
+<button id="send" class="btn btn-default" (click)="sendMessage()" type="submit">Send</button>
+
+<button id="send" class="btn btn-default" (click)="logout()">Logout</button>
+
+
+<button id="send" class="btn btn-default" (click)="doLoginTry()">Login TRY</button>
+
+
+<button id="send" class="btn btn-default" (click)="startChat()">Start</button>
