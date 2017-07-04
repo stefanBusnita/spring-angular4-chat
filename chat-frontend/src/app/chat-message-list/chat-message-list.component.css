@@ -1,0 +1,23 @@
+.chat-message-list-container {
+    height: 500px;
+}
+
+.chat-message-list-messages li {
+    border-top: none;
+}
+
+.chat-message-list-messages {
+    position: absolute;
+    overflow-y: auto;
+    height: 85%;
+    margin: 1;
+    min-width: 400px;
+    width: 93%;
+}
+
+.chat-message-panel-body {
+    padding-top: 2px;
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-bottom: 16px;
+}

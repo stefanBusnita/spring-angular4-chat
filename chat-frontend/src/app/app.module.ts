@@ -11,12 +11,18 @@ import {FormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { ChatMessageItemComponent } from './chat-message-item/chat-message-item.component';
+import { ChatMessageListComponent } from './chat-message-list/chat-message-list.component';
+import { ActiveUsersListComponent } from './active-users-list/active-users-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ChatMessageItemComponent,
+    ChatMessageListComponent,
+    ActiveUsersListComponent
   ],
   imports: [
     BrowserModule,
