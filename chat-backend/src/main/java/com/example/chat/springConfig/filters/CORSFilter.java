@@ -30,7 +30,7 @@ public class CORSFilter extends GenericFilterBean {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Expose-Headers", "Content-Type");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Accept-CORS,Enable-CORS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,Accept-CORS,Enable-CORS,X-Requested-With");
 
        // content security policy header
         response.setHeader("Content-Security-Policy","script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:");
