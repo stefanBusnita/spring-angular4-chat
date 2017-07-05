@@ -9,10 +9,10 @@
 .chat-message-list-messages {
     position: absolute;
     overflow-y: auto;
-    height: 85%;
+    height: 87%;
     margin: 1;
-    min-width: 400px;
-    width: 93%;
+    min-width: 150px;
+    width: 94%;
 }
 
 .chat-message-panel-body {

@@ -1,3 +1,4 @@
+import { ChatParticipantsService } from './services/chat-participants.service';
 import { routing } from './app.routing';
 import { LogoutService } from './guard/logout.service';
 import { AuthService } from './guard/auth.service';
@@ -30,7 +31,7 @@ import { ActiveUsersListComponent } from './active-users-list/active-users-list.
     FormsModule,
     routing
   ],
-  providers: [StompConnectionServiceService, LoginService, AuthService, LogoutService],
+  providers: [StompConnectionServiceService, LoginService, AuthService, LogoutService,ChatParticipantsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

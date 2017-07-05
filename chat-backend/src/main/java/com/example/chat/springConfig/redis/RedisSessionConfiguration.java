@@ -1,11 +1,16 @@
 package com.example.chat.springConfig.redis;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Configuration file
@@ -14,7 +19,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
  *
  */
 @Configuration
-@EnableRedisHttpSession
+@EnableRedisHttpSession //(maxInactiveIntervalInSeconds = 30)
 public class RedisSessionConfiguration extends AbstractHttpSessionApplicationInitializer{
 
     /**
@@ -25,4 +30,16 @@ public class RedisSessionConfiguration extends AbstractHttpSessionApplicationIni
     public HttpSessionStrategy httpSessionStrategy() {
         return new HeaderHttpSessionStrategy();
     }
+
+    @Value("${server.session.timeout}")
+    private Integer maxInactiveIntervalInMinutes;
+
+    @Autowired
+    private RedisOperationsSessionRepository sessionRepository;
+
+    @PostConstruct
+    private void afterPropertiesSet() {
+        sessionRepository.setDefaultMaxInactiveInterval(maxInactiveIntervalInMinutes * 60);
+    }
+
 }

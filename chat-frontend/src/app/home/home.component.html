@@ -1,7 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-6">
-        BADGES LIST WITH CURRENT USERS
-    </div>
+    <app-active-users-list></app-active-users-list>
     <app-chat-message-list [messages]="messages"></app-chat-message-list>
 </div>
 
@@ -18,10 +16,10 @@
 </div>
 
 
-<!--<button id="send" class="btn btn-default" (click)="logout()">Logout</button>
+<button id="send" class="btn btn-default" (click)="logout()">Logout</button>
 
 
-<button id="send" class="btn btn-default" (click)="doLoginTry()">Login TRY</button>
+<!--<button id="send" class="btn btn-default" (click)="doLoginTry()">Login TRY</button>
 
 
 <button id="send" class="btn btn-default" (click)="startChat()">Start</button>-->

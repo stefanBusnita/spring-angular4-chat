@@ -1,1 +1,1 @@
-<li style="width:100% " class="chat-message-item-text list-group-item">{{message.username}} : {{message.messagePayload}}</li>
+<li [ngClass]="{'chat-message-odd':isOdd,'chat-message-even':isEven}" class="chat-message-item-text list-group-item">{{message.username}} : {{message.messagePayload}}</li>

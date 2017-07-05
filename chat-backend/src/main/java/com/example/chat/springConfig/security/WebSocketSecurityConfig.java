@@ -5,7 +5,6 @@ import org.springframework.security.config.annotation.web.messaging.MessageSecur
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
 /**
- *
  */
 @Configuration
 public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
@@ -13,14 +12,13 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-                // users cannot send to these broker destinations, only the application can
+
                 .simpMessageDestMatchers("/topic/chat.login", "/topic/chat.logout", "/topic/chat.message").denyAll()
                 .anyMessage().authenticated();
     }
 
     @Override
     protected boolean sameOriginDisabled() {
-        //disable CSRF for websockets for now...
         return true;
     }
 }

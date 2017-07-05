@@ -1,3 +1,5 @@
+import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
+import { ChatParticipantsService } from './../services/chat-participants.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActiveUsersListComponent } from './active-users-list.component';
@@ -8,7 +10,7 @@ describe('ActiveUsersListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActiveUsersListComponent ]
+      declarations: [ ActiveUsersListComponent ],providers:[ChatParticipantsService,StompConnectionServiceService]
     })
     .compileComponents();
   }));

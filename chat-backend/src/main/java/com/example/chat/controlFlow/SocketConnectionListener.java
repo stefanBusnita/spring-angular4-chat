@@ -2,15 +2,19 @@ package com.example.chat.controlFlow;
 
 import com.example.chat.configurationProps.UserAccountabilitySubscriptionProperties;
 import com.example.chat.domain.UserData;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.Map;
 
 /**
  *
@@ -44,6 +48,10 @@ public class SocketConnectionListener {
 
         simpMessagingTemplate.convertAndSend(userAccountabilitySubscriptionProperties.getUserLogin(),data);
 
+        Map<String,Object> sessionAttributes = headerAccessor.getSessionAttributes();
+
+        System.out.println("Session Attributes "+sessionAttributes);
+
         usersAccountability.connectUser(headerAccessor.getSessionId(),data);
     }
 
@@ -53,7 +61,6 @@ public class SocketConnectionListener {
         //Provides uniform access to specific values common across protocols such as a destination, message type (e.g. publish, subscribe, etc), session id, and others.
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(sessionDisconnectEvent.getMessage());
         String username = headerAccessor.getUser().getName();
-
         //Optional<UserData> userData = usersAccountabilitygetUser(headerAccessor.getSessionId());
 
         UserData data =  usersAccountability.disconnectUser(headerAccessor.getSessionId());

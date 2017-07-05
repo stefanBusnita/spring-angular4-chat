@@ -1,3 +1,4 @@
+import { Message } from './../domain/message';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChatMessageItemComponent } from './chat-message-item.component';
@@ -20,6 +21,7 @@ describe('ChatMessageItemComponent', () => {
   });
 
   it('should be created', () => {
+    component.message = new Message("asd","asd");
     expect(component).toBeTruthy();
   });
 });

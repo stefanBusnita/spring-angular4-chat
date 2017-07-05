@@ -1,3 +1,11 @@
 .chat-message-item-text {
     word-wrap: break-word;
 }
+
+.chat-message-odd {
+    background-color: white;
+}
+
+.chat-message-even {
+    background-color: #F0F0F0;
+}

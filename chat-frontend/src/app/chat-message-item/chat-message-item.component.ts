@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ChatMessageItemComponent {
 
   @Input() message: Message;
-
-
+  @Input() isOdd: boolean;
+  @Input() isEven: boolean;
 
 }

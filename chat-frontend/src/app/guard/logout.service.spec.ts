@@ -1,3 +1,5 @@
+import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
+import { Http, HttpModule } from '@angular/http';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { LogoutService } from './logout.service';
@@ -5,7 +7,8 @@ import { LogoutService } from './logout.service';
 describe('LogoutService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LogoutService]
+      imports:[HttpModule],
+      providers: [LogoutService,StompConnectionServiceService]
     });
   });
 
