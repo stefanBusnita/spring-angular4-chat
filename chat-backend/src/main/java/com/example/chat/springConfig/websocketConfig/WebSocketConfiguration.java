@@ -6,6 +6,7 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.session.ExpiringSession;
 import org.springframework.session.web.socket.config.annotation.AbstractSessionWebSocketMessageBrokerConfigurer;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
@@ -27,7 +28,6 @@ import org.springframework.web.socket.handler.WebSocketHandlerDecoratorFactory;
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBrokerConfigurer<ExpiringSession>{
 
-
     /**
      * Register the /ws endpoint and enable alternate transports, so that if WebSocket is not available, the client will attempt to connect to this endpoint
      * and use the best transport available
@@ -47,12 +47,15 @@ public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBroke
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/queue");
         config.setApplicationDestinationPrefixes("/app");
+        config.setPathMatcher(new AntPathMatcher("/"));
     }
 
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
+
+
 
     /**
      * TODO, check.

@@ -22,6 +22,12 @@ import javax.annotation.PostConstruct;
 @EnableRedisHttpSession //(maxInactiveIntervalInSeconds = 30)
 public class RedisSessionConfiguration extends AbstractHttpSessionApplicationInitializer{
 
+    @Value("${server.session.timeout}")
+    private Integer maxInactiveIntervalInMinutes;
+
+    @Autowired
+    private RedisOperationsSessionRepository sessionRepository;
+
     /**
      * HttpSession integration to use HTTP headers to convey the current session information instead of cookies.
      * @return
@@ -31,12 +37,9 @@ public class RedisSessionConfiguration extends AbstractHttpSessionApplicationIni
         return new HeaderHttpSessionStrategy();
     }
 
-    @Value("${server.session.timeout}")
-    private Integer maxInactiveIntervalInMinutes;
-
-    @Autowired
-    private RedisOperationsSessionRepository sessionRepository;
-
+    /**
+     * The session expiration did not work by using maxInactiveIntervalInSeconds.
+     */
     @PostConstruct
     private void afterPropertiesSet() {
         sessionRepository.setDefaultMaxInactiveInterval(maxInactiveIntervalInMinutes * 60);

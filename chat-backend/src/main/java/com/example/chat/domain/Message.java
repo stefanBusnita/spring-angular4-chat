@@ -3,7 +3,7 @@ package com.example.chat.domain;
 import java.io.Serializable;
 
 /**
- *
+ *Simple POJO to represent a message transfered between the users
  */
 public class Message implements Serializable{
 

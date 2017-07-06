@@ -15,6 +15,7 @@ import java.io.IOException;
 
 /**
  * @author stefan.busnita
+ * Impl of CORSFilter.
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -28,9 +29,9 @@ public class CORSFilter extends GenericFilterBean {
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin")); //allowing cross origin for requests
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Expose-Headers", "Content-Type");
+        response.setHeader("Access-Control-Expose-Headers", "Content-Type,x-auth-token");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,Accept-CORS,Enable-CORS,X-Requested-With");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization,Accept-CORS,Enable-CORS,X-Requested-With,x-auth-token");
 
        // content security policy header
         response.setHeader("Content-Security-Policy","script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:");
