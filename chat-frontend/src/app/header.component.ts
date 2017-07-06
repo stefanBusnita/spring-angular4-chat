@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService,private uiEventEmitterService : UiEventEmitterService) { }
 
   doLogout() {
-    console.log("Logout called");
     this.authService.doLogout();
   }
 

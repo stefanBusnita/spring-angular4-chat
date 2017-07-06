@@ -1,3 +1,4 @@
+import { UserInterface } from './../domain/user-interface';
 import { User } from './../domain/user';
 import { ChatParticipantsService } from './../services/chat-participants.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -11,14 +12,14 @@ import { Component, Input, OnInit } from '@angular/core';
  * Represents the list of all active users who are currently in the chat room.
  */
 export class ActiveUsersListComponent implements OnInit {
-  chatParticipants: User[] = [];
+  chatParticipants: UserInterface[] = [];
 
   selectedItem: String = null;
 
   /**
    * Select and item from the list
    */
-  setActive(item: User) {
+  setActive(item: UserInterface) {
     this.selectedItem = item.username;
   }
 
@@ -30,7 +31,7 @@ export class ActiveUsersListComponent implements OnInit {
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.chatParticipantsService.usersChanged.subscribe((updatedList: User[]) => {
+    this.chatParticipantsService.usersChanged.subscribe((updatedList: UserInterface[]) => {
       console.log("chat participants list changed ", updatedList);
       this.chatParticipants = updatedList;
     });

@@ -1,3 +1,5 @@
+import { FlashService } from './../services/flash.service';
+import { UiEventEmitterService } from './../services/ui-event-emitter.service';
 import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
 import { Http, HttpModule } from '@angular/http';
 import { TestBed, inject } from '@angular/core/testing';
@@ -8,7 +10,7 @@ describe('LogoutService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports:[HttpModule],
-      providers: [LogoutService,StompConnectionServiceService]
+      providers: [LogoutService,StompConnectionServiceService,UiEventEmitterService,FlashService]
     });
   });
 

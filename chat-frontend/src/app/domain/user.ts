@@ -1,14 +1,8 @@
+import { UserInterface } from './user-interface';
 /**
  * Represents a chat User.
  */
-export class User{
-    constructor(public username:String,private loggedAt:String){}
+export class User implements UserInterface {
+    constructor(public username: String, public loggedAt: String) { }
 
-    getUsername():String{
-        return this.username;
-    }
-
-    getLoggedAt():String{
-        return this.loggedAt;
-    }
 }

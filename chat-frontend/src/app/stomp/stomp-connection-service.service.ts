@@ -1,3 +1,4 @@
+import { SubscribeFunctionWrapperInterface } from './../domain/subscribeFunctionWrapperInterface';
 import { FlashService } from './../services/flash.service';
 import { UiEventEmitterService } from './../services/ui-event-emitter.service';
 import { LogoutService } from './../guard/logout.service';
@@ -21,7 +22,7 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
 
   private stompConnectData = environment.stompConnect;
   private stompPrefix = environment.stompPrefixes;
-  private callFunctions: SubscribeFunctionWrapper[] = [];
+  private callFunctions: SubscribeFunctionWrapperInterface[] = [];
 
 
   constructor(private uiEventEmitterService: UiEventEmitterService, private flashService: FlashService) {
@@ -51,7 +52,7 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
   private connectSuccessCallback(frame) {
     //Pass thru all the registered points
     for (let i = 0; i < this.callFunctions.length; i++) {
-      this.subscribe(this.callFunctions[i].getSubscriptionLink(), this.callFunctions[i].getFunctionCall());
+      this.subscribe(this.callFunctions[i].subscriptionLink, this.callFunctions[i].functionCall);
     }
     this.flashService.doSuccess("Connection succesfull");
   }

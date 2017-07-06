@@ -1,3 +1,4 @@
+import { FlashInterface } from './../domain/flash-interface';
 import { environment } from './../../environments/environment';
 import { Observable } from 'rxjs/Rx';
 import { FlashMessage } from './../domain/flash';
@@ -13,7 +14,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 export class FlashService {
 
   //Leverage the Subject publish-subscribe. On adding a message publish, listeners will receive notice.
-  private _subject = new Subject<FlashMessage>();
+  private _subject = new Subject<FlashInterface>();
   //Timeout property taken from environment setup
   private _FLASH_TIMEOUT = environment._FLASH_TIMEOUT;
 
@@ -47,7 +48,7 @@ export class FlashService {
   /**
    * All subscribers should call this method to receive the event
    */
-  getMessage(): Observable<FlashMessage> {
+  getMessage(): Observable<FlashInterface> {
     return this._subject.asObservable();
   }
 

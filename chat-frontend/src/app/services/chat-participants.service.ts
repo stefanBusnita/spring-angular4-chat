@@ -1,3 +1,4 @@
+import { UserInterface } from './../domain/user-interface';
 import { FlashService } from './flash.service';
 import { UiEventEmitterService } from './ui-event-emitter.service';
 import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
@@ -12,15 +13,15 @@ import { Injectable, OnInit, EventEmitter } from '@angular/core';
 export class ChatParticipantsService {
 
 
-  chatParticipants: User[] = [];
+  chatParticipants: UserInterface[] = [];
 
-  usersChanged = new EventEmitter<User[]>();
+  usersChanged = new EventEmitter<UserInterface[]>();
 
 
   /**
   * Register all subscriptions, along with callbacks.
   */
-  constructor(private stompConnectionService: StompConnectionServiceService, private uiEventEmitterService: UiEventEmitterService,private flashService:FlashService) {
+  constructor(private stompConnectionService: StompConnectionServiceService, private uiEventEmitterService: UiEventEmitterService, private flashService: FlashService) {
     //after logging in, a list is received from the server
     this.stompConnectionService.addSubscription('/app/chat.users', this.getInitialUsersList.bind(this));
     //Request information from logged in Principal (username)
@@ -55,7 +56,7 @@ export class ChatParticipantsService {
     for (let user of currentlyLoggedUsers) {
       this.chatParticipants.push(user);
     }
-   //Testing users list view 
+    //Testing users list view 
     // for (let i = 0; i < 25; i++) {
     //   this.chatParticipants.push(currentlyLoggedUsers[0]);
     // }
@@ -66,9 +67,9 @@ export class ChatParticipantsService {
    * Callback for the user connected event, add to service list, and emit event to all subscribers.
    */
   private userConnected(userConnected) {
-    let connectedUser: User = new User(JSON.parse(userConnected.body).username, JSON.parse(userConnected.body).timestamp);
-    this.checkAlreadyExisting(connectedUser.getUsername()) ? "" : this.chatParticipants.push(JSON.parse(userConnected.body));
-    this.flashService.doError(connectedUser.getUsername()+" joined the chat!");
+    let connectedUser: UserInterface = new User(JSON.parse(userConnected.body).username, JSON.parse(userConnected.body).timestamp);
+    this.checkAlreadyExisting(connectedUser.username) ? "" : this.chatParticipants.push(JSON.parse(userConnected.body));
+    this.flashService.doError(connectedUser.username + " joined the chat!");
     this.doChageUserEvent();
   }
 
@@ -76,11 +77,11 @@ export class ChatParticipantsService {
    * Callback for the user disconnected event, remove from service list, and emit event to all subscribers.
    */
   private userDisconnected(userDisconnected) {
-    let disconnectedUser: User = new User(JSON.parse(userDisconnected.body).username, JSON.parse(userDisconnected.body).timestamp);
+    let disconnectedUser: UserInterface = new User(JSON.parse(userDisconnected.body).username, JSON.parse(userDisconnected.body).timestamp);
     this.chatParticipants = this.chatParticipants.filter((user: User) => {
       return user.username != disconnectedUser.username;
     });
-    this.flashService.doError(disconnectedUser.getUsername()+" left the chat...");
+    this.flashService.doError(disconnectedUser.username + " left the chat...");
     this.doChageUserEvent();
   }
 

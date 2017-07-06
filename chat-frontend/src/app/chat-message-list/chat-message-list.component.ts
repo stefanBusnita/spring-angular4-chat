@@ -1,3 +1,4 @@
+import { MessageInterface } from './../domain/message-interface';
 import { Message } from './../domain/message';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -12,6 +13,6 @@ import { Component, OnInit, Input } from '@angular/core';
  */
 export class ChatMessageListComponent {
 
-  @Input() messages: Message[];
+  @Input() messages: MessageInterface[] = [];
 
 }

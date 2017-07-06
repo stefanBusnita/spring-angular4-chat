@@ -1,7 +1,8 @@
+import { FlashInterface } from './flash-interface';
 /**
  * Application flash message domain class
  */
-export class FlashMessage {
-    constructor(text: string, type: string) {
+export class FlashMessage implements FlashInterface{
+    constructor(public text: string,public type: string) {
     }
 }

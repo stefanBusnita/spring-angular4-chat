@@ -1,3 +1,4 @@
+import { MessageInterface } from './../domain/message-interface';
 import { ChatParticipantsService } from './../services/chat-participants.service';
 import { SubscribeFunctionWrapper } from './../domain/subscribeFunctionWrapper';
 import { LogoutService } from './../guard/logout.service';
@@ -18,7 +19,7 @@ export class HomeComponent implements OnInit {
 
   private message = ''; //
 
-  messages: Message[] = []; //list of received messages, currently associated only to the public room
+  messages: MessageInterface[] = []; //list of received messages, currently associated only to the public room
 
   constructor(
     private logoutService: LogoutService,
@@ -47,10 +48,6 @@ export class HomeComponent implements OnInit {
   emptyMessages() {
     this.messages = [];
   }
-
-
-
-
 
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

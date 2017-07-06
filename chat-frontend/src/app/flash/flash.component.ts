@@ -1,3 +1,4 @@
+import { FlashInterface } from './../domain/flash-interface';
 import { FlashService } from './../services/flash.service';
 import { FlashMessage } from './../domain/flash';
 import { User } from './../domain/user';
@@ -11,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
  * Flash component will listen to any published FlashMessage event by the FlashService and display it.
  */
 export class FlashComponent implements OnInit {
-  message: FlashMessage;
+  message: FlashInterface;
   constructor(private flashService: FlashService) { }
 
   /**

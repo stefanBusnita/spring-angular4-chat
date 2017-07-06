@@ -1,3 +1,4 @@
+import { UserInterface } from './../domain/user-interface';
 import { User } from './../domain/user';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -14,7 +15,7 @@ import { Component, OnInit, Input } from '@angular/core';
  */
 export class ActiveUsersItemComponent implements OnInit {
 
-  @Input() participant: User;
+  @Input() participant: UserInterface;
   @Input() selectedItemId: String;
   constructor() { }
 
