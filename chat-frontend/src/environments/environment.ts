@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
+  _FLASH_TIMEOUT: 3000,
   stompConnect: { protocol: 'http://', path: 'localhost', port: '8080' },
-  httpConnect : { protocol: 'http://', path: 'localhost', port: '8080' },
+  httpConnect: { protocol: 'http://', path: 'localhost', port: '8080' },
   stompPrefixes: { endpoint: '/ws', simpleBroker: '/topic', appDestionation: '/app' }
 };

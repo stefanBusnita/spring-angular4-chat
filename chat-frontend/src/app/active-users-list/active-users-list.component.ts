@@ -7,13 +7,26 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './active-users-list.component.html',
   styleUrls: ['./active-users-list.component.css']
 })
+/**
+ * Represents the list of all active users who are currently in the chat room.
+ */
 export class ActiveUsersListComponent implements OnInit {
-  //should change with the type of user data ?? 
-
   chatParticipants: User[] = [];
+
+  selectedItem: String = null;
+
+  /**
+   * Select and item from the list
+   */
+  setActive(item: User) {
+    this.selectedItem = item.username;
+  }
 
   constructor(private chatParticipantsService: ChatParticipantsService) { }
 
+  /**
+   * Subscribe to users leaving event, and display updated list
+   */
   ngOnInit() {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
@@ -22,6 +35,5 @@ export class ActiveUsersListComponent implements OnInit {
       this.chatParticipants = updatedList;
     });
   }
-
 
 }

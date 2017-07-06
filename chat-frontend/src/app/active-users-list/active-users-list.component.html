@@ -1,3 +1,14 @@
 <div class="col-xs-12 col-sm-6 col-md-6">
-    <div *ngFor="let participant of chatParticipants">{{participant.username}}</div>
+    <ngb-tabset>
+        <ngb-tab title="Active users">
+            <ng-template ngbTabContent>
+                <div class="container-tst">
+                    <div class="list-group active-users-list-items-container">
+                        <app-active-users-item *ngFor="let participant of chatParticipants;let i = index;" (click)="setActive(participant)" [selectedItemId]="selectedItem" [participant]="participant"></app-active-users-item>
+                        <app-no-ative-users *ngIf="!chatParticipants.length"></app-no-ative-users>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
 </div>

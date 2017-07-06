@@ -1,3 +1,7 @@
+import { FlashService } from './../services/flash.service';
+import { UiEventEmitterService } from './../services/ui-event-emitter.service';
+import { LogoutService } from './../guard/logout.service';
+import { AuthService } from './../guard/auth.service';
 import { SubscribeFunctionWrapper } from './../domain/subscribeFunctionWrapper';
 import { environment } from './../../environments/environment';
 import * as SockJS from 'sockjs-client';
@@ -13,17 +17,20 @@ import { Subject } from 'rxjs/Subject';
 export class StompConnectionServiceService implements StompWebSocketCommunication<SockJS>, OnInit {
 
   sock: SockJS;
-  stompClient: any;
+  private stompClient: any;
 
   private stompConnectData = environment.stompConnect;
   private stompPrefix = environment.stompPrefixes;
   private callFunctions: SubscribeFunctionWrapper[] = [];
 
 
-  constructor() {
+  constructor(private uiEventEmitterService: UiEventEmitterService, private flashService: FlashService) {
     this.initialize(this.stompConnectData.protocol + this.stompConnectData.path + ":" + this.stompConnectData.port + this.stompPrefix.endpoint);
   }
 
+  /**
+   * Initialize all vars
+   */
   initialize(url: String): void {
     this.sock = new SockJS(url);
     this.stompClient = Stomp.over(this.sock);
@@ -31,46 +38,50 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
     this.stompClient.heartbeat.incoming = 0;
   }
 
+  /**
+   * Subscriptions will be added by other components
+   */
   public addSubscription(subscribeLink: String, functionCall: Function) {
     this.callFunctions.push(new SubscribeFunctionWrapper(subscribeLink, functionCall));
   }
 
-  private connectCallback(frame) {
+  /**
+   * Client connected succesfully, we can subscribe to all necessary events.
+   */
+  private connectSuccessCallback(frame) {
     //Pass thru all the registered points
     for (let i = 0; i < this.callFunctions.length; i++) {
       this.subscribe(this.callFunctions[i].getSubscriptionLink(), this.callFunctions[i].getFunctionCall());
     }
-
+    this.flashService.doSuccess("Connection succesfull");
   }
 
-
-  subscribe(destination: String, callback: Function): void {
-    this.stompClient.subscribe(destination, callback);
+  /**
+   * Client disconnected
+   * Emit interface update event, show a message
+   */
+  private disconnectCallback() {
+    this.uiEventEmitterService.welcomeNotice.emit("");
+    this.flashService.doSuccess("You will no longer receive messages");
   }
 
-
-  connect(success: Function): void {
-    let plainCredentials = "stef:password";
-    let base64Credentials = btoa("stef:password");
-
-    //final WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
-    //headers.add("Authorization", "Basic " + base64Credentials);
-    //"Authorization" : "Basic "+base64Credentials
-
+  connect(): void {
     this.stompClient.connect({},
-      this.connectCallback.bind(this), function (message) {
-        console.log(message);
+      this.connectSuccessCallback.bind(this),function(){
+        console.log("An error occured while trying to connect");
       }
     );
   }
 
   disconnect() {
-    this.stompClient.disconnect(function () {
-      //alert("See you next time!");
-    });
+    this.stompClient.disconnect(this.disconnectCallback.bind(this));
   }
 
-  send(destination: String, headers: Object, payload: Object): void {
+  subscribe(destination: String, callback: Function): void {
+    this.stompClient.subscribe(destination, callback);
+  }
+
+  send(destination: String, payload: Object): void {
     this.stompClient.send(destination, {}, payload);
   }
 

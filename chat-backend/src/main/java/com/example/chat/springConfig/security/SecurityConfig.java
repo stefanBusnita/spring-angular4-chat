@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
         try {
             http.csrf().disable().httpBasic()
-                    .and().authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN,USER").anyRequest().authenticated()
+                    .and().authorizeRequests().antMatchers("/").hasAnyRole("ADMIN,USER").anyRequest().authenticated()
                     .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                     .requestCache() //prevent creation of session when user is not Authenticated, we will have only Authenticated session ids in Reddis
                     .requestCache(new NullRequestCache())

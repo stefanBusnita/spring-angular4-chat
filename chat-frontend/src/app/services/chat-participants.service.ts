@@ -1,3 +1,5 @@
+import { FlashService } from './flash.service';
+import { UiEventEmitterService } from './ui-event-emitter.service';
 import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
 import { User } from './../domain/user';
 import { Injectable, OnInit, EventEmitter } from '@angular/core';
@@ -14,15 +16,26 @@ export class ChatParticipantsService {
 
   usersChanged = new EventEmitter<User[]>();
 
+
   /**
-   * Used just for testing purposes, simple subscription to an APP event
-   */
-  doStuff(greeting) {
-
-    console.log("First app communication : ", greeting);
-
+  * Register all subscriptions, along with callbacks.
+  */
+  constructor(private stompConnectionService: StompConnectionServiceService, private uiEventEmitterService: UiEventEmitterService,private flashService:FlashService) {
+    //after logging in, a list is received from the server
+    this.stompConnectionService.addSubscription('/app/chat.users', this.getInitialUsersList.bind(this));
+    //Request information from logged in Principal (username)
+    this.stompConnectionService.addSubscription('/app/chat.whoAmI', this.welcomeNoticeCallback.bind(this));
+    //User logged in, update users list
+    this.stompConnectionService.addSubscription('/topic/user-login', this.userConnected.bind(this));
+    //User logged out, update users list
+    this.stompConnectionService.addSubscription('/topic/user-logout', this.userDisconnected.bind(this));
   }
-  private doEmitEvent() {
+
+  emptyUsersList() {
+    this.usersChanged.emit([]);
+  }
+
+  private doChageUserEvent() {
     this.usersChanged.emit(this.chatParticipants);
   }
 
@@ -34,6 +47,20 @@ export class ChatParticipantsService {
       return elem.username
     }).indexOf(username) != -1;
   }
+  /**
+   * Initial users list received
+   */
+  private getInitialUsersList(message) {
+    let currentlyLoggedUsers: User[] = JSON.parse(message.body);
+    for (let user of currentlyLoggedUsers) {
+      this.chatParticipants.push(user);
+    }
+   //Testing users list view 
+    // for (let i = 0; i < 25; i++) {
+    //   this.chatParticipants.push(currentlyLoggedUsers[0]);
+    // }
+    this.doChageUserEvent();
+  }
 
   /**
    * Callback for the user connected event, add to service list, and emit event to all subscribers.
@@ -41,7 +68,8 @@ export class ChatParticipantsService {
   private userConnected(userConnected) {
     let connectedUser: User = new User(JSON.parse(userConnected.body).username, JSON.parse(userConnected.body).timestamp);
     this.checkAlreadyExisting(connectedUser.getUsername()) ? "" : this.chatParticipants.push(JSON.parse(userConnected.body));
-    this.doEmitEvent();
+    this.flashService.doError(connectedUser.getUsername()+" joined the chat!");
+    this.doChageUserEvent();
   }
 
   /**
@@ -52,16 +80,15 @@ export class ChatParticipantsService {
     this.chatParticipants = this.chatParticipants.filter((user: User) => {
       return user.username != disconnectedUser.username;
     });
-    this.doEmitEvent();
+    this.flashService.doError(disconnectedUser.getUsername()+" left the chat...");
+    this.doChageUserEvent();
   }
 
-  /**
-   * Register all subscriptions, along with callbacks.
-   */
-  constructor(private stompConnectionService: StompConnectionServiceService) {
-    this.stompConnectionService.addSubscription('/app/test', this.doStuff.bind(this))
-    this.stompConnectionService.addSubscription('/topic/user-login', this.userConnected.bind(this));
-    this.stompConnectionService.addSubscription('/topic/user-logout', this.userDisconnected.bind(this));
+  private welcomeNoticeCallback(message) {
+    this.uiEventEmitterService.welcomeNotice.emit(message.body);
   }
+
+
+
 
 }

@@ -12,5 +12,5 @@ export interface StompWebSocketCommunication<T> {
 
     subscribe(destination: String, callback: any): void; //subscribe to an event
 
-    send(destination:String,headers:Object,payload:Object):void; //send payload to a server destination
+    send(destination:String,payload:Object):void; //send payload to a server destination
 }

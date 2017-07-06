@@ -1,24 +1,21 @@
 import { StompConnectionServiceService } from './../stomp/stomp-connection-service.service';
 import { Observable } from 'rxjs/Rx';
-import { Http, Response } from '@angular/http';
-import { environment } from './../../environments/environment';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
+/**
+ * Service responsible for the "logout" strategy.
+ * Current implementation refers to a call to disconnect from the web socket client.
+ * Called by AuthService, when the app declares a logout action
+ */
 @Injectable()
 export class LogoutService {
 
-
-
-  private environmentData = environment.httpConnect;
-
-  constructor(private stompConnectionService:StompConnectionServiceService,private http: Http) {
+  constructor(private stompConnectionService: StompConnectionServiceService) {
   }
 
   doLogout() {
-    console.log("inside do logout");
     this.stompConnectionService.disconnect();
-    return this.http.post(this.environmentData.protocol + this.environmentData.path + ":" + this.environmentData.port + "/logout",{})
-      .map((response: Response) =>{}).subscribe((response:any)=>{console.log("response")});
   }
 
 }

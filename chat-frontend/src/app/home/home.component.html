@@ -8,18 +8,12 @@
         <div class="input-group">
             <input type="text" id="name" [(ngModel)]="message" (keyup.enter)="sendMessage()" class="form-control" placeholder="Start typing...">
             <span class="input-group-btn">
-        <button class="btn btn-success" (click)="sendMessage()" type="button">Send message!</button>
+        <button class="btn btn-success" [class.disabled]="!message" (click)="sendMessage()" type="button">Send message!</button>
       </span>
             <div *ngIf="emptyMessage"></div>
         </div>
     </div>
 </div>
 
-
-<button id="send" class="btn btn-default" (click)="logout()">Logout</button>
-
-
-<!--<button id="send" class="btn btn-default" (click)="doLoginTry()">Login TRY</button>
-
-
+<!--
 <button id="send" class="btn btn-default" (click)="startChat()">Start</button>-->
