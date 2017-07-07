@@ -25,6 +25,6 @@ Chat functionality done by using Spring-backend, Angular4-frontend.
 ##  Notice ! 
 1. Check frotned **environment.ts** currently set to connect to `localhost:8080`. If backend is deployed elsewhere, please change settings.  
 2. **Basic Authentication** is used, for using 2 instances on same machine, open a window in incognito mode and login with:  
-a. user:stef password:password  
-b. user:admin password:password
+a. user: **stef** pass: **password**  
+b. user: **admin** pass: **password**
  
