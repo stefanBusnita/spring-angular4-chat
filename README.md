@@ -23,6 +23,8 @@ Chat functionality done by using Spring-backend, Angular4-frontend.
  3.Alternatively some Tomcat [guidance](http://www.baeldung.com/tomcat-deploy-war)  
  
 ##  Notice ! 
+Frotend environment: **environments.ts** found in **/src/environments**  
+Backend environment: **application.properties** found in **src/main/resources/**  
 1. Check frotned **environment.ts** currently set to connect to `localhost:8080`. If backend is deployed elsewhere, please change settings.  
 2. **Basic Authentication** is used, for using 2 instances on same machine, open a window in incognito mode and login with:  
 a. user: **stef** pass: **password**  
