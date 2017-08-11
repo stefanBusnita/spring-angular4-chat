@@ -1,3 +1,4 @@
+import { UiEventEmitterService } from './../services/ui-event-emitter.service';
 import { UserInterface } from './../domain/user-interface';
 import { User } from './../domain/user';
 import { Component, OnInit, Input } from '@angular/core';
@@ -13,15 +14,16 @@ import { Component, OnInit, Input } from '@angular/core';
  * 1. The participant - received while the structure is repeated
  * 2. The selectedItem - when an item is clicked.
  */
-export class ActiveUsersItemComponent implements OnInit {
+export class ActiveUsersItemComponent  {
 
   @Input() participant: UserInterface;
   @Input() selectedItemId: String;
-  constructor() { }
+  constructor(private ui : UiEventEmitterService) { }
 
+  onUserSelected(){
+    console.log("EMITTING THE PARTICIPANT",this.participant.username);
+    this.ui.chatSelected.emit(this.participant.username);
 
-
-  ngOnInit() {
   }
 
 }

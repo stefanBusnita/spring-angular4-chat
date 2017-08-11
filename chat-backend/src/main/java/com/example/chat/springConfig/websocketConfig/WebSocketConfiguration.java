@@ -45,7 +45,7 @@ public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBroke
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic","/queue");
+        config.enableSimpleBroker("/topic","/queue","/private");
         config.setApplicationDestinationPrefixes("/app");
         config.setPathMatcher(new AntPathMatcher("/"));
     }

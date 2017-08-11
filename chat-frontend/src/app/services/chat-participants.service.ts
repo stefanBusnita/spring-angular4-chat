@@ -1,3 +1,5 @@
+import { UserServiceService } from './user-service.service';
+import { ChatRoomsService } from './chat-rooms.service';
 import { UserInterface } from './../domain/user-interface';
 import { FlashService } from './flash.service';
 import { UiEventEmitterService } from './ui-event-emitter.service';
@@ -21,7 +23,11 @@ export class ChatParticipantsService {
   /**
   * Register all subscriptions, along with callbacks.
   */
-  constructor(private stompConnectionService: StompConnectionServiceService, private uiEventEmitterService: UiEventEmitterService, private flashService: FlashService) {
+  constructor(private stompConnectionService: StompConnectionServiceService,
+    private uiEventEmitterService: UiEventEmitterService,
+    private flashService: FlashService,
+    private chatRoomService: ChatRoomsService,
+    private userServiece: UserServiceService) {
     //after logging in, a list is received from the server
     this.stompConnectionService.addSubscription('/app/chat.users', this.getInitialUsersList.bind(this));
     //Request information from logged in Principal (username)
@@ -54,7 +60,7 @@ export class ChatParticipantsService {
   private getInitialUsersList(message) {
     let currentlyLoggedUsers: User[] = JSON.parse(message.body);
     for (let user of currentlyLoggedUsers) {
-      this.chatParticipants.push(user);
+      this.userConnected({ body: JSON.stringify(user) });
     }
     //Testing users list view 
     // for (let i = 0; i < 25; i++) {
@@ -70,8 +76,19 @@ export class ChatParticipantsService {
     let connectedUser: UserInterface = new User(JSON.parse(userConnected.body).username, JSON.parse(userConnected.body).timestamp);
     this.checkAlreadyExisting(connectedUser.username) ? "" : this.chatParticipants.push(JSON.parse(userConnected.body));
     this.flashService.doError(connectedUser.username + " joined the chat!");
+    //this.chatRoomService
+    let service = this.chatRoomService;
+    this.stompConnectionService.addSubscription('/user/private/chat.' + connectedUser.username, function (message) {
+      console.log(service);
+      service.addToRoom(connectedUser.username, JSON.parse(message.body));
+    });
     this.doChageUserEvent();
   }
+
+  // privateChatCallback(message){
+  //     this.chatRoomService.addToRoom(connectedUser.username,JSON.parse(message.body));
+  // }
+
 
   /**
    * Callback for the user disconnected event, remove from service list, and emit event to all subscribers.
@@ -86,7 +103,11 @@ export class ChatParticipantsService {
   }
 
   private welcomeNoticeCallback(message) {
-    this.uiEventEmitterService.welcomeNotice.emit(message.body);
+    let messageBody = JSON.parse(message.body);
+    console.log(messageBody.authorities);
+    this.userServiece.user = messageBody;
+    this.uiEventEmitterService.welcomeNotice.emit(messageBody.name);
+
   }
 
 

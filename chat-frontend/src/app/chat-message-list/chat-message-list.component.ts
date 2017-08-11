@@ -14,5 +14,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ChatMessageListComponent {
 
   @Input() messages: MessageInterface[] = [];
+  @Input() roomName : String;
 
 }

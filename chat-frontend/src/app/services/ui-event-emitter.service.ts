@@ -12,6 +12,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 export class UiEventEmitterService {
 
   welcomeNotice = new EventEmitter<String>();
+  chatSelected = new EventEmitter<String>(); //a chat user was selected
+  messageReceived = new EventEmitter<String>();
+  
 
   constructor() { }
 

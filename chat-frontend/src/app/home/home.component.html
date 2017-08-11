@@ -1,11 +1,16 @@
 <div class="row">
     <app-active-users-list></app-active-users-list>
-    <app-chat-message-list [messages]="messages"></app-chat-message-list>
+    <app-chat-message-list [roomName]="activeRoomName" [messages]="messages"></app-chat-message-list>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
         <div class="input-group">
+            <span *ngIf="isPremium" class="input-group-addon">
+                <span [innerHTML]="getEmoji(0)" (click)="addEmoji(0)"></span>
+                <span [innerHTML]="getEmoji(1)" (click)="addEmoji(1)"></span>
+                <span [innerHTML]="getEmoji(2)" (click)="addEmoji(2)"></span>
+            </span>
             <input type="text" id="name" [(ngModel)]="message" (keyup.enter)="sendMessage()" class="form-control" placeholder="Start typing...">
             <span class="input-group-btn">
         <button class="btn btn-success" [class.disabled]="!message" (click)="sendMessage()" type="button">Send message!</button>

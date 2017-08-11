@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Rx';
 import { SubscribeFunctionWrapperInterface } from './../domain/subscribeFunctionWrapperInterface';
 import { FlashService } from './../services/flash.service';
 import { UiEventEmitterService } from './../services/ui-event-emitter.service';
@@ -19,7 +20,7 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
 
   sock: SockJS;
   private stompClient: any;
-
+  private connected: Boolean = false;
   private stompConnectData = environment.stompConnect;
   private stompPrefix = environment.stompPrefixes;
   private callFunctions: SubscribeFunctionWrapperInterface[] = [];
@@ -43,7 +44,13 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
    * Subscriptions will be added by other components
    */
   public addSubscription(subscribeLink: String, functionCall: Function) {
-    this.callFunctions.push(new SubscribeFunctionWrapper(subscribeLink, functionCall));
+
+    console.log(subscribeLink);
+    if (this.connected) {
+      this.subscribe(subscribeLink, functionCall);
+    } else {
+      this.callFunctions.push(new SubscribeFunctionWrapper(subscribeLink, functionCall));
+    }
   }
 
   /**
@@ -55,6 +62,7 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
       this.subscribe(this.callFunctions[i].subscriptionLink, this.callFunctions[i].functionCall);
     }
     this.flashService.doSuccess("Connection succesfull");
+    this.connected = true;
   }
 
   /**
@@ -68,7 +76,7 @@ export class StompConnectionServiceService implements StompWebSocketCommunicatio
 
   connect(): void {
     this.stompClient.connect({},
-      this.connectSuccessCallback.bind(this),function(){
+      this.connectSuccessCallback.bind(this), function () {
         console.log("An error occured while trying to connect");
       }
     );

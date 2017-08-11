@@ -1,3 +1,5 @@
+import { UserServiceService } from './services/user-service.service';
+import { ChatRoomsService } from './services/chat-rooms.service';
 import { FlashService } from './services/flash.service';
 import { UiEventEmitterService } from './services/ui-event-emitter.service';
 import { ChatParticipantsService } from './services/chat-participants.service';
@@ -43,7 +45,7 @@ import { FlashComponent } from './flash/flash.component';
     FormsModule,
     routing
   ],
-  providers: [StompConnectionServiceService,FlashService, LoginService, AuthService, LogoutService,ChatParticipantsService,UiEventEmitterService],
+  providers: [StompConnectionServiceService,FlashService, LoginService, AuthService, LogoutService,ChatParticipantsService,UiEventEmitterService,ChatRoomsService,UserServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
